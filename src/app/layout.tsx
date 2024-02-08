@@ -2,6 +2,13 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../styles/globals.css";
 
+// import { AuthType } from "@particle-network/auth-core";
+import { Avalanche, AvalancheTestnet } from "@particle-network/chains";
+import {
+  AuthCoreContextProvider,
+  // PromptSettingType,
+} from "@particle-network/auth-core-modal";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -16,7 +23,35 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <AuthCoreContextProvider
+          options={{
+            projectId: "7d82e328-50cd-4154-b6a1-b4c9c89e4da5",
+            clientKey: "cQBNwp1An92iWe0uquuMwp6yofIxkH9erMa9PsUx",
+            appId: "23319595-10e2-4731-9898-422e4e0582b6",
+            // authTypes: [AuthType.email, AuthType.google, AuthType.twitter],
+            themeType: "dark",
+            fiatCoin: "USD",
+            language: "en",
+            erc4337: {
+              name: "SIMPLE",
+              version: "1.0.0",
+            },
+            // promptSettingConfig: {
+            //   promptPaymentPasswordSettingWhenSign: PromptSettingType.first,
+            //   promptMasterPasswordSettingWhenLogin: PromptSettingType.first,
+            // },
+            wallet: {
+              visible: false,
+              customStyle: {
+                supportChains: [AvalancheTestnet],
+              },
+            },
+          }}
+        >
+          {children}
+        </AuthCoreContextProvider>
+      </body>
     </html>
   );
 }
